@@ -51,26 +51,29 @@ export const RaceTrack: React.FC<Props> = ({ stepSize, currentStepIndex, childre
       </div>
 
       {/* Race Track Bar */}
-      <div className="relative z-10 h-32 sm:h-36 bg-amber-200/95 rounded-2xl border-b-8 border-amber-500 flex items-end pb-3 sm:pb-4 px-4 sm:px-10 shadow-inner mt-2 overflow-x-auto overflow-y-visible">
+      <div className="relative z-10 h-32 sm:h-36 bg-amber-200/95 rounded-2xl border-b-8 border-amber-500 flex items-end pb-3 sm:pb-4 px-6 sm:px-12 shadow-inner mt-2 overflow-x-auto overflow-y-visible">
         
-        {/* Checkpoint Markers Line */}
-        <div className="absolute left-4 right-4 sm:left-10 sm:right-10 bottom-3 sm:bottom-4 flex justify-between items-center pointer-events-none z-0 min-w-[320px]">
+        {/* Checkpoint Markers Line (Steps 1 to 10) */}
+        <div className="absolute left-10 right-10 sm:left-16 sm:right-16 bottom-3 sm:bottom-4 flex justify-between items-center pointer-events-none z-0 min-w-[320px]">
           {totalStepsArray.map((step) => {
             const stepValue = step * stepSize;
             const isReached = currentStepIndex >= step;
 
             return (
-              <div key={step} className="flex flex-col items-center">
+              <div key={step} className="flex flex-col items-center min-w-6">
+                {/* Checkpoint Bar */}
                 <div
-                  className={`w-1 h-3 sm:h-5 rounded-full transition-colors ${
-                    isReached ? 'bg-emerald-600' : 'bg-amber-400/80'
+                  className={`w-1.5 h-3 sm:h-5 rounded-full transition-all duration-300 ${
+                    isReached ? 'bg-emerald-600 scale-125' : 'bg-amber-400/80'
                   }`}
                 />
+                
+                {/* Reveal Number ONLY when reached! */}
                 <span
-                  className={`text-[10px] sm:text-xs font-black mt-1 px-1 py-0.5 rounded transition-all ${
+                  className={`text-[10px] sm:text-xs font-black mt-1 px-1 py-0.5 rounded transition-all duration-300 ${
                     isReached
-                      ? 'bg-emerald-500 text-white shadow-sm scale-105'
-                      : 'bg-amber-100/90 text-amber-900/70'
+                      ? 'bg-emerald-500 text-white shadow-sm scale-105 opacity-100'
+                      : 'opacity-0'
                   }`}
                 >
                   {stepValue}
@@ -80,10 +83,15 @@ export const RaceTrack: React.FC<Props> = ({ stepSize, currentStepIndex, childre
           })}
         </div>
 
-        {/* Animated Tortoise (Positioned Directly Above the Numbers) */}
+        {/* Start Line Marker */}
+        <div className="absolute left-2 sm:left-4 bottom-3 sm:bottom-4 flex flex-col items-center pointer-events-none">
+          <span className="text-[10px] sm:text-xs font-black text-amber-800 uppercase">START</span>
+        </div>
+
+        {/* Animated Tortoise */}
         <div
           className="absolute bottom-11 sm:bottom-14 transition-all duration-500 ease-out flex flex-col items-center z-10 pointer-events-auto"
-          style={{ left: `calc(${progressPercent}% * 0.78 + 4px)` }}
+          style={{ left: `calc(12px + (${progressPercent}% * 0.82))` }}
         >
           <div className="text-4xl sm:text-6xl filter drop-shadow-md transition-transform hover:scale-110">
             🐢
